@@ -4,7 +4,8 @@ from openpyxl.styles import Border, Side, Alignment,PatternFill,Font
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 from openpyxl import Workbook
-from openpyxl.worksheet.page import PageMargins
+
+
 
 # Tkinter를 초기화하여 파일 선택 다이얼로그를 표시
 root = Tk()
@@ -13,13 +14,8 @@ root.withdraw()  # Tkinter 창을 숨김
 # 파일 선택 다이얼로그를 통해 파일 경로 획득
 file_path = askopenfilename(title="엑셀 파일 선택", filetypes=[("Excel 파일", "*.xlsx;*.xls")])
 
-df = pd.read_excel(file_path)
-
-# 데이터프레임을 XLSX 파일로 저장
-df.to_excel('example.xlsx', index=Ture)
-
 # DataFrame으로 읽기
-df_data = pd.read_excel(example.xlsx, index_col=0)
+df_data = pd.read_excel(file_path, index_col=0)
 new_column_names = ['1코트', '2코트', '3코트','4코트','5코트','6코트','7코트','8코트']  # 필요한 만큼 열 이름을 변경
 new_index_values = ['06:00~07:00', '07:00~08:00', '08:00~09:00', '09:00~10:00', '10:00~11:00', '11:00~12:00', '12:00~13:00','13:00~14:00','14:00~15:00','15:00~16:00','16:00~17:00','17:00~18:00','18:00~19:00','19:00~20:00','20:00~21:00','21:00~22:00'] #행
 specific_cells = []
@@ -57,6 +53,20 @@ for change_colums in range(8):
                 specific_cells.append((index_value, column_name))
                 
         if (df_data['시설명'] == desired_facility_list[change_colums]).any():
+            condition = (df_data['시설명'] == desired_facility_list[change_colums]) & (df_data['예약시간'] == desired_reservation_time_list[i])& (df_data['예약상태'].isin(desired_reservation_status_list))&(~df_data['추가금액'].isin(desired_money))& (df_data['할인전금액'] - (df_data['할인금액'] * 5 / 4) == 4500 )
+            
+            if condition.any():
+                # 조건을 만족하면 해당 행의 인덱스인 '예약회원'을 출력
+                reserved_member = condition[condition].index[0]
+                combined_value = f"{reserved_member} {desired_reservation_time_list_r[i]}"
+                df_sch.loc[[new_index_values[j],new_index_values[j+1]], new_column_names[change_colums]] = combined_value
+                index_value = new_index_values.index(new_index_values[j])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value, column_name))
+                index_value = new_index_values.index(new_index_values[j+1])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value, column_name))
+        if (df_data['시설명'] == desired_facility_list[change_colums]).any():
             condition = (df_data['시설명'] == desired_facility_list[change_colums]) & (df_data['예약시간'] == desired_reservation_time_list[i])& (df_data['예약상태'].isin(desired_reservation_status_list))&(~df_data['추가금액'].isin(desired_money))
 
             if condition.any():
@@ -65,7 +75,9 @@ for change_colums in range(8):
                 combined_value = f"{reserved_member} {desired_reservation_time_list_r[i]}"
                 df_sch.loc[[new_index_values[j],new_index_values[j+1]], new_column_names[change_colums]] = combined_value
 
+
         j=j+2
+
 
     for k in range(7):
         if (df_data['시설명'] == desired_facility_list[change_colums]).any():
@@ -88,6 +100,30 @@ for change_colums in range(8):
                 column_name = new_column_names.index(new_column_names[change_colums])
                 specific_cells.append((index_value, column_name))
                 
+
+
+        if(df_data['시설명'] == desired_facility_list[change_colums]).any():
+            condition = (df_data['시설명'] == desired_facility_list[change_colums]) & (df_data['예약시간'] == desired_reservation_time_list_4[k])& (df_data['예약상태'].isin(desired_reservation_status_list))&(~df_data['추가금액'].isin(desired_money))& (df_data['할인전금액'] - (df_data['할인금액'] * 5 / 4) == 9000 )
+
+            if condition.any():
+                # 조건을 만족하면 해당 행의 인덱스인 '예약회원'을 출력
+                reserved_member = condition[condition].index[0]
+                combined_value = f"{reserved_member} {desired_reservation_time_list_4_r[k]}"
+                df_sch.loc[[new_index_values[j_1],new_index_values[j_1+1],new_index_values[j_1+2],new_index_values[j_1+3]] , new_column_names[change_colums]] = combined_value
+                index_value = new_index_values.index(new_index_values[j_1])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value,column_name))
+                index_value = new_index_values.index(new_index_values[j_1+1])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value, column_name))
+                index_value = new_index_values.index(new_index_values[j_1+2])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value, column_name))
+                index_value = new_index_values.index(new_index_values[j_1+3])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value, column_name))
+
+
             
         if(df_data['시설명'] == desired_facility_list[change_colums]).any():
             condition = (df_data['시설명'] == desired_facility_list[change_colums]) & (df_data['예약시간'] == desired_reservation_time_list_4[k])& (df_data['예약상태'].isin(desired_reservation_status_list))&(~df_data['추가금액'].isin(desired_money))
@@ -173,3 +209,8 @@ with pd.ExcelWriter('클레이코트.xlsx', engine='openpyxl') as writer:
     worksheet.page_setup.fitToWidth = 1
 
 print("엑셀 파일이 생성되었습니다.")
+
+
+
+
+
