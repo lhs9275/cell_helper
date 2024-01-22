@@ -53,6 +53,22 @@ for change_colums in range(4):
                 specific_cells.append((index_value, column_name))
                 
         if (df_data['시설명'] == desired_facility_list[change_colums]).any():
+            condition = (df_data['시설명'] == desired_facility_list[change_colums]) & (df_data['예약시간'] == desired_reservation_time_list[i])& (df_data['예약상태'].isin(desired_reservation_status_list))&(~df_data['추가금액'].isin(desired_money))&(df_data['할인전금액'] - (df_data['할인금액'] * 5 / 4) == 3000)
+                                  
+            if condition.any():
+                # 조건을 만족하면 해당 행의 인덱스인 '예약회원'을 출력
+                reserved_member = condition[condition].index[0]
+                combined_value = f"{reserved_member} {desired_reservation_time_list_r[i]}"
+                df_sch.loc[[new_index_values[j],new_index_values[j+1]], new_column_names[change_colums]] = combined_value
+                index_value = new_index_values.index(new_index_values[j])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value, column_name))
+                index_value = new_index_values.index(new_index_values[j+1])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value, column_name))
+
+
+        if (df_data['시설명'] == desired_facility_list[change_colums]).any():
             condition = (df_data['시설명'] == desired_facility_list[change_colums]) & (df_data['예약시간'] == desired_reservation_time_list[i])& (df_data['예약상태'].isin(desired_reservation_status_list))&(~df_data['추가금액'].isin(desired_money))
 
             if condition.any():
@@ -85,15 +101,37 @@ for change_colums in range(4):
                 
             
         if(df_data['시설명'] == desired_facility_list[change_colums]).any():
-            condition = (df_data['시설명'] == desired_facility_list[change_colums]) & (df_data['예약시간'] == desired_reservation_time_list_4[k])& (df_data['예약상태'].isin(desired_reservation_status_list))&(~df_data['추가금액'].isin(desired_money))
+            condition = (df_data['시설명'] == desired_facility_list[change_colums]) & (df_data['예약시간'] == desired_reservation_time_list_4[k])& (df_data['예약상태'].isin(desired_reservation_status_list))&(~df_data['추가금액'].isin(desired_money))&(df_data['할인전금액'] - (df_data['할인금액'] * 5 /4 ) == 6000)
+
 
             if condition.any():
                 # 조건을 만족하면 해당 행의 인덱스인 '예약회원'을 출력
                 reserved_member = condition[condition].index[0]
                 combined_value = f"{reserved_member} {desired_reservation_time_list_4_r[k]}"
                 df_sch.loc[[new_index_values[j_1],new_index_values[j_1+1],new_index_values[j_1+2],new_index_values[j_1+3]] , new_column_names[change_colums]] = combined_value
+                index_value = new_index_values.index(new_index_values[j_1])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value,column_name))
+                index_value = new_index_values.index(new_index_values[j_1+1])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value, column_name))
+                index_value = new_index_values.index(new_index_values[j_1+2])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value, column_name))
+                index_value = new_index_values.index(new_index_values[j_1+3])
+                column_name = new_column_names.index(new_column_names[change_colums])
+                specific_cells.append((index_value, column_name))
                 
-                
+        if(df_data['시설명'] == desired_facility_list[change_colums]).any():
+            condition = (df_data['시설명'] == desired_facility_list[change_colums]) & (df_data['예약시간'] == desired_reservation_time_list_4[k])& (df_data['예약상태'].isin(desired_reservation_status_list))&(~df_data['추가금액'].isin(desired_money))    
+
+            if condition.any():
+                # 조건을 만족하면 해당 행의 인덱스인 '예약회원'을 출력
+                reserved_member = condition[condition].index[0]
+                combined_value = f"{reserved_member} {desired_reservation_time_list_4_r[k]}"
+                df_sch.loc[[new_index_values[j_1],new_index_values[j_1+1],new_index_values[j_1+2],new_index_values[j_1+3]] , new_column_names[change_colums]] = combined_value    
+        
+        
         j_1=j_1+2
 
 
