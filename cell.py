@@ -13,8 +13,13 @@ root.withdraw()  # Tkinter 창을 숨김
 # 파일 선택 다이얼로그를 통해 파일 경로 획득
 file_path = askopenfilename(title="엑셀 파일 선택", filetypes=[("Excel 파일", "*.xlsx;*.xls")])
 
+df = pd.read_excel(file_path)
+
+# 데이터프레임을 XLSX 파일로 저장
+df.to_excel('example.xlsx', index=Ture)
+
 # DataFrame으로 읽기
-df_data = pd.read_excel(file_path, index_col=0)
+df_data = pd.read_excel(example.xlsx, index_col=0)
 new_column_names = ['1코트', '2코트', '3코트','4코트','5코트','6코트','7코트','8코트']  # 필요한 만큼 열 이름을 변경
 new_index_values = ['06:00~07:00', '07:00~08:00', '08:00~09:00', '09:00~10:00', '10:00~11:00', '11:00~12:00', '12:00~13:00','13:00~14:00','14:00~15:00','15:00~16:00','16:00~17:00','17:00~18:00','18:00~19:00','19:00~20:00','20:00~21:00','21:00~22:00'] #행
 specific_cells = []
